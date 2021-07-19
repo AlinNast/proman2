@@ -27,6 +27,7 @@ def get_boards():
         """
         SELECT * FROM boards
         WHERE user_id is NULL
+        ORDER BY id
         ;
         """
     )
@@ -202,4 +203,15 @@ def add_card(card_title, board_id, status_id, order):
         VALUES (%(board_id)s, %(status_id)s, %(title)s, %(order)s)
         """
         , {"board_id":board_id,"status_id":status_id,"title":card_title,"order":order}
+    )
+
+
+def rename_board(title,id):
+    data_manager.execute_query(
+        """
+        UPDATE boards
+        SET title = %(title)s
+        WHERE id = %(id)s
+        """
+        , {"title":title, "id":id}
     )

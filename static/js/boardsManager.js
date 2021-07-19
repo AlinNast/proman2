@@ -25,15 +25,27 @@ export let boardsManager = {
             domManager.addEventListener(`.toggle-board-button[data-board-id="${board.id}"]`, "click", showHideButtonHandler);
             domManager.addEventListener(`.delete-board[data-board-id="${board.id}"]`,"click", deleteBoard);
             domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`,'click',addColumn)
+            domManager.addEventListener(`.edit-board-title[data-board-id="${board.id}"]`,'click',editBoardName)
         }
     },
+}
+
+function editBoardName(clickEvent){
+    domManager.initModal('Rename your board');
+    domManager.handleModalClose();
+    const boardId = clickEvent.target.dataset.boardId;
+    document.querySelector('.modal-body button').addEventListener('click', async () => {
+        const inputTitle = document.querySelector('#data_input')
+        const boardTitle = inputTitle.value;
+        await dataHandler.renameBoard(boardId,boardTitle);
+        domManager.submitModalClose();
+    });
 }
 
 function addCard(clickEvent) {
     domManager.initModal('Name your card');
     domManager.handleModalClose();
     const boardId = clickEvent.target.dataset.boardId;
-    
     document.querySelector('.modal-body button').addEventListener('click', async () => {
         const inputTitle = document.querySelector('#data_input')
         const cardTitle = inputTitle.value;

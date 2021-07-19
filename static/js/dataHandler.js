@@ -56,6 +56,9 @@ export let dataHandler = {
     },
     getPrivateBoards: async function() {
         return await apiGet('/get-private-boards')
+    },
+    renameBoard: async function(boardId, title) {
+        return await apiPut('/rename-board',{boardId:boardId,title:title})
     }
 };
 

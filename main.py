@@ -185,6 +185,15 @@ def get_id_of_new_status(board_id):
     return queires.get_new_status_id_from_board(board_id)
 
 
+@app.route('/rename-board',methods=["PUT"])
+def rename_board():
+    if request.is_json:
+        title = request.json.get('title')
+        id = request.json.get('boardId')
+        queires.rename_board(title,id)
+        return {"message": "ok"}
+
+
 def main():
     app.run(debug=True)
 

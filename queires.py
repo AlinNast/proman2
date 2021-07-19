@@ -27,6 +27,7 @@ def get_boards():
         """
         SELECT * FROM boards
         WHERE user_id is NULL
+        ORDER BY id
         ;
         """
     )
@@ -37,6 +38,7 @@ def get_cards_for_column(column_id):
         """
         SELECT * FROM cards
         WHERE cards.status_id = %(column_id)s
+        ORDER BY card_order
         ;
         """
         , {"column_id": column_id})
@@ -145,27 +147,15 @@ def add_status(status_title,board_id):
         , {"status_title": status_title, "board_id": board_id}
     )
 
-def edit_card_status(card_id, status_id):
+def edit_card_status(card_id, status_id,order):
     data_manager.execute_query(
         """
         UPDATE cards
-        SET status_id = %(status_id)s
+        SET status_id = %(status_id)s, card_order=%(order)s
         WHERE cards.id = %(card_id)s
         ;
         """
-        , {"status_id": status_id, "card_id": card_id}
-    )
-
-def get_first_status_of_board(board_id):
-    return data_manager.execute_select(
-        """
-        SELECT statuses.id
-        FROM statuses
-        WHERE board_id = %(board_id)s
-        ORDER BY id
-        LIMIT 1
-        """
-        , {"board_id": board_id}, False
+        , {"status_id": status_id, "card_id": card_id, "order":order}
     )
 
 def register_new_account(user, password):
@@ -194,4 +184,34 @@ def get_private_boards(user_id):
         WHERE user_id = %(user_id)s
         """
         , {"user_id": user_id}
+    )
+
+def get_new_status_id_from_board(board_id):
+    return data_manager.execute_select(
+        """
+        SELECT id
+        FROM statuses
+        WHERE title='new' AND board_id = %(board_id)s
+        """
+        , {"board_id": board_id}, False
+    )
+
+def add_card(card_title, board_id, status_id, order):
+    data_manager.execute_query(
+        """
+        INSERT INTO cards (board_id,status_id,title,card_order)
+        VALUES (%(board_id)s, %(status_id)s, %(title)s, %(order)s)
+        """
+        , {"board_id":board_id,"status_id":status_id,"title":card_title,"order":order}
+    )
+
+
+def rename_board(title,id):
+    data_manager.execute_query(
+        """
+        UPDATE boards
+        SET title = %(title)s
+        WHERE id = %(id)s
+        """
+        , {"title":title, "id":id}
     )

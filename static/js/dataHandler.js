@@ -26,11 +26,11 @@ export let dataHandler = {
     createNewBoardPrivate: async function (boardTitle) {
         return await apiPost('/new-board-private',{item: boardTitle})
     },
-    createNewCard: async function (cardTitle, boardId, statusId) {
-        return await apiPost()
+    createNewCard: async function (cardTitle, boardId) {
+        return await apiPost('/create-card',{cardTitle:cardTitle,boardId:boardId})
     },
     createNewColumn: async function(columnTitle,boardId) {
-        return await apiGet(`/new-status/${columnTitle}/${boardId}`)
+        return await apiPost(`/new-status`, {columnTitle:columnTitle,boardId:boardId})
     },
     deleteCard: async function (cardId) {
         return await apiDelete("/delete-card",{item: cardId})
@@ -42,8 +42,8 @@ export let dataHandler = {
     deleteBoard: async function (boardId) {
         return await apiDelete("/delete-board",{item: boardId})
     },
-    editStatus: async function (cardId, columnId) {
-        return await apiPut("/edit-card-status",{cardId: cardId, columnId: columnId})
+    editStatus: async function (cardId, columnId,order) {
+        return await apiPut("/edit-card-status",{cardId: cardId, columnId: columnId, order:order})
     },
     createNewUser: async function(user, password) {
         return await apiPost('/register-new-account',{user:user,password:password})
@@ -56,6 +56,9 @@ export let dataHandler = {
     },
     getPrivateBoards: async function() {
         return await apiGet('/get-private-boards')
+    },
+    renameBoard: async function(boardId, title) {
+        return await apiPut('/rename-board',{boardId:boardId,title:title})
     }
 };
 

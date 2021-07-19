@@ -36,8 +36,8 @@ function boardBuilder(board) {
                 <section class="board">
                     <div class="board-header" data-board-id=${board.id}>
                         <span class="board-title" data-board-id=${board.id}>${ board.title }</span>
-                        <button class="edit-board-title" data-function="rename-board" data-board-id="${board.id}">Rename</button>
-                        <button class="card-add" data-board-id="${board.id}" data-function="add-card">+ Add Card</button>
+                        <button class="edit-board-title" data-board-id="${board.id}">Rename</button>
+                        <button class="card-add" data-board-id="${board.id}">+ Add Card</button>
                         <button class="add-column" data-board-id="${board.id}" type="button" data-toggle="modal" data-target="#newBoardModal" data-function="create-column">+ Add Column</button>
                         <button class="delete-board" data-board-id="${board.id}" onClick="window.location.reload();" data-function="delete-board">Delete Board</button>
                         <button class="toggle-board-button" data-board-id="${board.id}" data-show=false>&#9660;</button>

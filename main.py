@@ -112,9 +112,13 @@ def create_board_private():
         return {"boardId": board_id}
 
 
-@app.route("/new-status/<title>/<int:board_id>")
-def create_column(title,board_id: int):
-    queires.add_status(title,board_id)
+@app.route("/new-status", methods=["POST"])
+def create_column():
+    if request.is_json:
+        board_id = request.json.get("boardId")
+        column_title = request.json.get("columnTitle")
+        queires.add_status(column_title,board_id)
+        return {"message": "ok"}
 
 
 @app.route("/edit-card-status", methods=["PUT"])
@@ -123,7 +127,8 @@ def edit_status():
     if request.is_json:
         card_id = request.json.get("cardId")
         status_id = request.json.get("columnId")
-        queires.edit_card_status(card_id, status_id)
+        order = request.json.get("order")
+        queires.edit_card_status(card_id, status_id, order)
         return " "
 
 
@@ -132,9 +137,13 @@ def edit_status():
 def create_card():
     if request.is_json:
         board_id = request.json.get("boardId")
-        status_id = queires.get_first_status_of_board(board_id)
-        queires.add_card(board_id)
-
+        status = queires.get_new_status_id_from_board(board_id)
+        status_id = status['id']
+        card_title = request.json.get("cardTitle")
+        cards_in_column = queires.get_cards_for_column(status_id)
+        order = len(cards_in_column)+1
+        queires.add_card(card_title,board_id,status_id,order)
+        return {"message": "ok"}
 
 @app.route('/register-new-account', methods=['POST'])
 def new_account():
@@ -144,6 +153,7 @@ def new_account():
         hashed_password = util.hash_password(password)
         queires.register_new_account(user,hashed_password)
         return {'message': "ok"}
+
 
 @app.route('/login', methods=["POST"])
 @json_response
@@ -175,6 +185,20 @@ def logout():
 def get_private_boards():
     if session:
         return queires.get_private_boards(session['id'])
+
+@app.route('/api/new-status-id-from-board/<board_id>')
+@json_response
+def get_id_of_new_status(board_id):
+    return queires.get_new_status_id_from_board(board_id)
+
+
+@app.route('/rename-board',methods=["PUT"])
+def rename_board():
+    if request.is_json:
+        title = request.json.get('title')
+        id = request.json.get('boardId')
+        queires.rename_board(title,id)
+        return {"message": "ok"}
 
 
 def main():

@@ -30,7 +30,7 @@ export let dataHandler = {
         return await apiPost('/create-card',{cardTitle:cardTitle,boardId:boardId})
     },
     createNewColumn: async function(columnTitle,boardId) {
-        return await apiGet(`/new-status/${columnTitle}/${boardId}`)
+        return await apiPost(`/new-status`, {columnTitle:columnTitle,boardId:boardId})
     },
     deleteCard: async function (cardId) {
         return await apiDelete("/delete-card",{item: cardId})

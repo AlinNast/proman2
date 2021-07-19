@@ -105,9 +105,13 @@ def create_board_private():
         return {"boardId": board_id}
 
 
-@app.route("/new-status/<title>/<int:board_id>")
-def create_column(title,board_id: int):
-    queires.add_status(title,board_id)
+@app.route("/new-status", methods=["POST"])
+def create_column():
+    if request.is_json:
+        board_id = request.json.get("boardId")
+        column_title = request.json.get("columnTitle")
+        queires.add_status(column_title,board_id)
+        return {"message": "ok"}
 
 
 @app.route("/edit-card-status", methods=["PUT"])

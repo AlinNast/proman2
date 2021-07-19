@@ -54,11 +54,15 @@ function addBoardPrivate() {
 }
 
 function addColumn(clickEvent) {
-    console.log('start')
     const boardId = clickEvent.target.dataset.boardId;
-    console.log(boardId)
-    const inputTitle = document.querySelector("#new-title");
-    const title = inputTitle.value;
+    domManager.initModal('Name your status');
+    domManager.handleModalClose();
+    document.querySelector('.modal-body button').addEventListener('click', async () => {
+        const inputTitle = document.querySelector('#data_input')
+        const statusTitle = inputTitle.value;
+        await dataHandler.createNewColumn(statusTitle,boardId)
+        domManager.submitModalClose();
+    });
     dataHandler.createNewColumn(title,boardId)
 }
 

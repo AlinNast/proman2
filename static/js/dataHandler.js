@@ -26,8 +26,8 @@ export let dataHandler = {
     createNewBoardPrivate: async function (boardTitle) {
         return await apiPost('/new-board-private',{item: boardTitle})
     },
-    createNewCard: async function (cardTitle, boardId, statusId) {
-        return await apiPost()
+    createNewCard: async function (cardTitle, boardId) {
+        return await apiPost('/create-card',{cardTitle:cardTitle,boardId:boardId})
     },
     createNewColumn: async function(columnTitle,boardId) {
         return await apiGet(`/new-status/${columnTitle}/${boardId}`)

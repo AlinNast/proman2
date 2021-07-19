@@ -125,9 +125,13 @@ def edit_status():
 def create_card():
     if request.is_json:
         board_id = request.json.get("boardId")
-        status_id = queires.get_first_status_of_board(board_id)
-        queires.add_card(board_id)
-
+        status = queires.get_new_status_id_from_board(board_id)
+        status_id = status['id']
+        card_title = request.json.get("cardTitle")
+        cards_in_column = queires.get_cards_for_column(status_id)
+        order = len(cards_in_column)+1
+        queires.add_card(card_title,board_id,status_id,order)
+        return {"message": "ok"}
 
 @app.route('/register-new-account', methods=['POST'])
 def new_account():
@@ -137,6 +141,7 @@ def new_account():
         hashed_password = util.hash_password(password)
         queires.register_new_account(user,hashed_password)
         return {'message': "ok"}
+
 
 @app.route('/login', methods=["POST"])
 @json_response
@@ -168,6 +173,11 @@ def logout():
 def get_private_boards():
     if session:
         return queires.get_private_boards(session['id'])
+
+@app.route('/api/new-status-id-from-board/<board_id>')
+@json_response
+def get_id_of_new_status(board_id):
+    return queires.get_new_status_id_from_board(board_id)
 
 
 def main():

@@ -156,18 +156,6 @@ def edit_card_status(card_id, status_id):
         , {"status_id": status_id, "card_id": card_id}
     )
 
-def get_first_status_of_board(board_id):
-    return data_manager.execute_select(
-        """
-        SELECT statuses.id
-        FROM statuses
-        WHERE board_id = %(board_id)s
-        ORDER BY id
-        LIMIT 1
-        """
-        , {"board_id": board_id}, False
-    )
-
 def register_new_account(user, password):
     data_manager.execute_query(
         """
@@ -194,4 +182,23 @@ def get_private_boards(user_id):
         WHERE user_id = %(user_id)s
         """
         , {"user_id": user_id}
+    )
+
+def get_new_status_id_from_board(board_id):
+    return data_manager.execute_select(
+        """
+        SELECT id
+        FROM statuses
+        WHERE title='new' AND board_id = %(board_id)s
+        """
+        , {"board_id": board_id}, False
+    )
+
+def add_card(card_title, board_id, status_id, order):
+    data_manager.execute_query(
+        """
+        INSERT INTO cards (board_id,status_id,title,card_order)
+        VALUES (%(board_id)s, %(status_id)s, %(title)s, %(order)s)
+        """
+        , {"board_id":board_id,"status_id":status_id,"title":card_title,"order":order}
     )

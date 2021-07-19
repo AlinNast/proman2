@@ -21,7 +21,7 @@ export let boardsManager = {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
             domManager.addChild("#root", content);
-            // domManager.addEventListener(`.card-add[data-board-id="${board.id}"]`,'click', addCard)
+            domManager.addEventListener(`.card-add[data-board-id="${board.id}"]`,'click', addCard)
             domManager.addEventListener(`.toggle-board-button[data-board-id="${board.id}"]`, "click", showHideButtonHandler);
             domManager.addEventListener(`.delete-board[data-board-id="${board.id}"]`,"click", deleteBoard);
             domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`,'click',addColumn)
@@ -29,6 +29,18 @@ export let boardsManager = {
     },
 }
 
+function addCard(clickEvent) {
+    domManager.initModal('Name your card');
+    domManager.handleModalClose();
+    const boardId = clickEvent.target.dataset.boardId;
+    
+    document.querySelector('.modal-body button').addEventListener('click', async () => {
+        const inputTitle = document.querySelector('#data_input')
+        const cardTitle = inputTitle.value;
+        await dataHandler.createNewCard(cardTitle,boardId);
+        domManager.submitModalClose();
+    });
+}
 
 function addBoardPrivate() {
     domManager.initModal('Name your board');

@@ -18,6 +18,13 @@ def index():
     return render_template('index.html')
 
 
+@app.route("/test")
+def test():
+    print('test')
+    return 'test'
+
+
+
 @app.route("/get-boards")
 @json_response
 def get_boards():

@@ -21,10 +21,17 @@ export let cardsManager = {
 export function dragElements() {
     const containers = [...document.querySelectorAll('.board-column-content')];
     dragula(containers)
-        .on('dragend', (el) => {
+        .on('dragend',async (el) => {
             const cardId = el.dataset.cardId;
             const newColumnId = el.parentNode.dataset.columnId;
-            dataHandler.editStatus(cardId,newColumnId);
+            const card = document.querySelector(`.card[data-card-id="${cardId}"]`);
+            let newOrder = 0;
+            const column = card.parentElement;
+            while( card != column.children[newOrder]) {
+                newOrder++;
+            }
+            newOrder += 1;
+            await dataHandler.editStatus(cardId,newColumnId,newOrder);
         })
 }
 

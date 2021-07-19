@@ -42,8 +42,8 @@ export let dataHandler = {
     deleteBoard: async function (boardId) {
         return await apiDelete("/delete-board",{item: boardId})
     },
-    editStatus: async function (cardId, columnId) {
-        return await apiPut("/edit-card-status",{cardId: cardId, columnId: columnId})
+    editStatus: async function (cardId, columnId,order) {
+        return await apiPut("/edit-card-status",{cardId: cardId, columnId: columnId, order:order})
     },
     createNewUser: async function(user, password) {
         return await apiPost('/register-new-account',{user:user,password:password})

@@ -7,7 +7,6 @@ import { cardsManager, dragElements } from "./cardsManager.js";
 export let columnsManager = {
     loadColumns: async function(boardId) {
         const columns = await dataHandler.getStatusesByBoardId(boardId);
-        // domManager.addEventListener(`.add-column[data-board-id="${board.id}"]`,'click',addColumn)
         for(let column of columns) {
             const columnBuilder = htmlFactory(htmlTemplates.column);
             const content = columnBuilder(column);
@@ -21,12 +20,3 @@ export let columnsManager = {
         document.querySelector(`.board-columns[data-board-id="${boardId}"]`).innerText = "";
     }
 }
-
-// function addColumn(clickEvent) {
-//     console.log('start')
-//     const boardId = clickEvent.target.dataset.boardId;
-//     console.log(boardId)
-//     const inputTitle = document.querySelector("#new-title");
-//     const title = inputTitle.value;
-//     dataHandler.createNewColumn(title,boardId)
-// }

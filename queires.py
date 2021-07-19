@@ -37,6 +37,7 @@ def get_cards_for_column(column_id):
         """
         SELECT * FROM cards
         WHERE cards.status_id = %(column_id)s
+        ORDER BY card_order
         ;
         """
         , {"column_id": column_id})
@@ -145,15 +146,15 @@ def add_status(status_title,board_id):
         , {"status_title": status_title, "board_id": board_id}
     )
 
-def edit_card_status(card_id, status_id):
+def edit_card_status(card_id, status_id,order):
     data_manager.execute_query(
         """
         UPDATE cards
-        SET status_id = %(status_id)s
+        SET status_id = %(status_id)s, card_order=%(order)s
         WHERE cards.id = %(card_id)s
         ;
         """
-        , {"status_id": status_id, "card_id": card_id}
+        , {"status_id": status_id, "card_id": card_id, "order":order}
     )
 
 def register_new_account(user, password):

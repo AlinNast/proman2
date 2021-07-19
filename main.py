@@ -116,7 +116,8 @@ def edit_status():
     if request.is_json:
         card_id = request.json.get("cardId")
         status_id = request.json.get("columnId")
-        queires.edit_card_status(card_id, status_id)
+        order = request.json.get("order")
+        queires.edit_card_status(card_id, status_id, order)
         return " "
 
 

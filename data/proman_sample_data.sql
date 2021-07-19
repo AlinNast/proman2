@@ -23,11 +23,12 @@ DROP TABLE IF EXISTS cards;
 
 ---
 --- create tables
----
+--- 
 
 CREATE TABLE statuses (
     id       SERIAL PRIMARY KEY     NOT NULL,
-    title    VARCHAR(200)           NOT NULL
+    title    VARCHAR(200)           NOT NULL,
+    board_id INTEGER                NOT NULL
 );
 
 CREATE TABLE boards (

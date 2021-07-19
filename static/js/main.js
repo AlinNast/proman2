@@ -1,12 +1,12 @@
-import { dom } from "./dom.js";
+import { boardsManager } from "./boardsManager.js";
 
-// This function is to initialize the application
 function init() {
-    // init data
-    dom.init();
-    // loads the boards to the screen
-    dom.loadBoards();
-
+  boardsManager.loadBoards()
 }
 
 init();
+
+
+//doua
+//linii
+//de cod

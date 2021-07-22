@@ -143,3 +143,16 @@ section.board{
 .card-title{
     padding-right: 16px;
 }
+
+
+#loginButon {
+    margin-left: 70em;
+}
+
+#registerButon {
+    margin-left: 1em;
+}
+
+#logoutButon {
+    margin-left: 70em;
+}

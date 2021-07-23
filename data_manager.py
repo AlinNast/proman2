@@ -13,13 +13,13 @@ def establish_connection(connection_data=None):
         connection_data = get_connection_data()
     try:
         if os.environ.get("DATABSE_URL"):
-            connect_str = os.environ.get("DATABSE_URL")
+            connect_str = os.environ.get("DATABASE_URL")
         else:
             connect_str = "dbname={} user={} host={} password={}".format(connection_data['dbname'],
                                                                         connection_data['user'],
                                                                         connection_data['host'],
                                                                         connection_data['password'])
-        conn = psycopg2.connect(connect_str)
+        conn = psycopg2.connect(os.environ.get("DATABASE_URL"))
         conn.autocommit = True
     except psycopg2.DatabaseError as e:
         print("Cannot connect to database.")
@@ -35,7 +35,6 @@ def get_connection_data(db_name=None):
     :db_name: optional parameter. By default it uses the environment variable value.
     """
 
-# postgres://avcylfdkoolwnm:d6731b3fecc73a9664ce45e42e89de3477bac90722607faea141e2d50d8c3db4@ec2-52-19-170-215.eu-west-1.compute.amazonaws.com:5432/ds4dskklobqau
     if db_name is None:
         db_name = os.environ.get('MY_PSQL_DBNAME')
 

@@ -35,7 +35,7 @@ def get_connection_data(db_name=None):
     :db_name: optional parameter. By default it uses the environment variable value.
     """
 
-    # postgres://dzxirkciqlxdjt:3be3cbf230081e8f5d812201e392fa0167ddeb7b99bc7fca880b636e144aa3d6@ec2-54-155-87-214.eu-west-1.compute.amazonaws.com:5432/ddqt2q8666ibqi
+# postgres://avcylfdkoolwnm:d6731b3fecc73a9664ce45e42e89de3477bac90722607faea141e2d50d8c3db4@ec2-52-19-170-215.eu-west-1.compute.amazonaws.com:5432/ds4dskklobqau
     if db_name is None:
         db_name = os.environ.get('MY_PSQL_DBNAME')
 
